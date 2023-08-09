@@ -47,12 +47,11 @@ impl EventReader {
         let mut corrupt_lines = 0;
 
         for line in reader.lines() {
-            let event = line.unwrap();
+            let message = line.unwrap();
 
-            let invoice: Invoice = match serde_json::from_str(&event) {
+            let invoice: Invoice = match serde_json::from_str(&message) {
                 Ok(value) => value,
-                Err(error) => {
-                    // println!("ERRROR {:?}", error);
+                Err(err) => {
                     corrupt_lines = corrupt_lines + 1;
                     continue;
                 }
